@@ -28,6 +28,7 @@ import { useStore } from 'vuex'
 import LText from '../components/LText.vue'
 import ComponentList from '../components/ComponentList.vue'
 import { defaultTextTemplates } from '@/defaultTemplates'
+import { TextComponentProps } from '@/defaultProps'
 export default defineComponent({
     name: 'editor',
     components: {
@@ -37,7 +38,8 @@ export default defineComponent({
     setup() {
         const store = useStore<GlobalDataProps>()
         const components = computed(() => store.state.editor.components)
-        const addItem = (props: any) => {
+        // 添加props只读文本组件类型
+        const addItem = (props: Partial<TextComponentProps>) => {
             store.commit('editor/addComponent', props)
         }
         return {

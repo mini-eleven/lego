@@ -1,6 +1,45 @@
 import { mapValues, without } from "lodash-es"
 
-export const commonDefaultProps = {
+export interface CommonComponentProps {
+    // actions
+    actionType: string
+    url: string
+    // size
+    height: string
+    width: string
+    paddingLeft: string
+    paddingRight: string
+    paddingTop: string
+    paddingBottom: string
+    // border type
+    borderStyle: string
+    borderColor: string
+    borderWidth: string
+    borderRadius: string
+    // shadow and opacity
+    boxShadow: string
+    opacity: string
+    // position and x,y
+    position: string
+    left: string
+    top: string
+    right: string
+}
+
+export interface TextComponentProps extends CommonComponentProps {
+    text: string
+    fontSize: string
+    fontFamily: string
+    fontWeight: string
+    fontStyle: string
+    textDecoration: string
+    lineHeight: string
+    textAlign: string
+    color: string
+    backgroundColor: string
+}
+
+export const commonDefaultProps: CommonComponentProps = {
     // actions
     actionType: '',
     url: '',
@@ -18,7 +57,7 @@ export const commonDefaultProps = {
     borderRadius: '0',
     // shadow and opacity
     boxShadow: '0 0 0 #000000',
-    opacity: 1,
+    opacity: '1',
     // position and x,y
     position: 'absolute',
     left: '0',
@@ -26,7 +65,7 @@ export const commonDefaultProps = {
     right: '0'
 }
 
-export const textDefaultProps = {
+export const textDefaultProps: TextComponentProps = {
     // basic props -font styles
     text: '正文内容',
     fontSize: '14px',
@@ -43,10 +82,10 @@ export const textDefaultProps = {
 
 export const textStylePropNames = without(Object.keys(textDefaultProps), 'actionType', 'url', 'text')
 
-export const transformToComponentProps = <T extends { [key: string]: any }>(props: T) => {
+export const transformToComponentProps = (props: TextComponentProps) => {
     return mapValues(props, (item) => {
         return {
-            type: item.constructor,
+            type: item.constructor as StringConstructor,
             default: item
         }
     })

@@ -7,7 +7,6 @@
 import { defineComponent } from 'vue'
 import useComponentCommon from '@/hooks/useComponentCommon'
 import { transformToComponentProps, textDefaultProps, textStylePropNames } from '../defaultProps'
-console.log(textStylePropNames)
 const defaultProps = transformToComponentProps(textDefaultProps)
 export default defineComponent({
     name: 'l-text',
