@@ -7,6 +7,7 @@ export interface PropToForm {
     text?: string
     options?: { text: string; value: any }[]
     initalTransform?: (v: any) => any
+    afterTransform?: (v: any) => any
     valueProp?: string
     eventName?: string
 }
@@ -18,18 +19,21 @@ export type PropsToForms = {
 export const mapPropsToForms: PropsToForms = {
     text: {
         component: 'a-input',
-        text: '文本'
+        text: '文本',
+        afterTransform: (e: any) => e.target.value
     },
     fontSize: {
         component: 'a-input-number',
         text: '字号',
-        initalTransform: (v: string) => parseInt(v)
+        initalTransform: (v: string) => parseInt(v),
+        afterTransform: (e: number) => e ? `${e}px` : ''
     },
     lineHeight: {
         component: 'a-slider',
         extraProps: { min: 0, max: 3, step: 0.1 },
         text: '行高',
-        initalTransform: (v: string) => parseFloat(v)
+        initalTransform: (v: string) => parseFloat(v),
+        afterTransform: (e: number) => e.toString()
     },
     textAlign: {
         component: 'a-radio-group',
@@ -39,7 +43,8 @@ export const mapPropsToForms: PropsToForms = {
             { text: '左', value: 'left' },
             { text: '中', value: 'center' },
             { text: '右', value: 'right' }
-        ]
+        ],
+        afterTransform: (e: any) => e.target.value
     },
     fontFamily: {
         component: 'a-select',
@@ -51,6 +56,6 @@ export const mapPropsToForms: PropsToForms = {
             { text: '黑体', value: '"SimHei","STHeiti"' },
             { text: '楷体', value: '"KaiTi","STKaiti"' },
             { text: '仿宋', value: '"FangSong", "STFangsong" ' }
-        ]
+        ],
     }
 }                

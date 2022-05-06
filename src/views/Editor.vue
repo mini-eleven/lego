@@ -58,7 +58,7 @@ export default defineComponent({
             store.commit('editor/setActive', id)
         }
         const handleChange = (e: any) => {
-            console.log('event', e)
+            store.commit('editor/updateComponent', e)
         }
         return {
             components,
