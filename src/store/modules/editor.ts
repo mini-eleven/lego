@@ -9,7 +9,7 @@ export interface EditorProps {
     currentElement: string
 }
 
-interface ComponentData {
+export interface ComponentData {
     props: { [key: string]: any }
     // uuid v4
     id: string
@@ -37,6 +37,20 @@ const editor: Module<EditorProps, GlobalDataProps> = {
                 props
             }
             state.components.push(newComponent)
+        },
+        deleteComponent(state, props) {
+            const currentComponent: ComponentData | undefined = state.components.find(x => x.id == state.currentElement)
+            if (currentComponent) {
+                state.components = state.components.filter(x => x.id != currentComponent.id)
+            }
+        },
+        setActive(state, currentId: string) {
+            state.currentElement = currentId
+        }
+    },
+    getters: {
+        getCurrentElement: (state) => {
+            return state.components.find(x => x.id == state.currentElement)
         }
     }
 }
