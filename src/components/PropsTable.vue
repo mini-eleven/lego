@@ -8,7 +8,7 @@
                     <template v-if="value.options">
                         <component :is="value.subComponent" v-for="(option, k) in value.options" :key="k"
                             :value="option.value">
-                            {{ option.text }}
+                            <render-vnode :vNode="option.text"></render-vnode>
                         </component>
                     </template>
                 </component>
@@ -19,17 +19,17 @@
 
 <script lang="ts">
 import { TextComponentProps } from '@/defaultProps'
-import { computed, defineComponent, PropType } from 'vue'
+import { computed, defineComponent, PropType, VNode } from 'vue'
 import { reduce } from 'lodash-es'
-import { mapPropsToForms, PropsToForms } from '@/propsMap'
-import { formProps } from 'ant-design-vue/lib/form'
+import { mapPropsToForms } from '@/propsMap'
+import RenderVnode from './RenderVnode'
 interface FormProps {
     component: string
     subComponent?: string
     value: string
     extraProps?: { [key: string]: any }
     text?: string
-    options?: { text: string; value: any }[]
+    options?: { text: string | VNode; value: any }[]
     initalTransform?: (v: any) => any
     valueProp: string
     eventName: string
@@ -42,6 +42,9 @@ export default defineComponent({
             type: Object as PropType<TextComponentProps>,
             required: true
         }
+    },
+    components: {
+        RenderVnode
     },
     emits: ['change'],
     setup(props, context) {
