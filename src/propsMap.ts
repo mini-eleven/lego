@@ -69,5 +69,12 @@ export const mapPropsToForms: PropsToForms = {
             { text: '无', value: '' },
             ...fontFamilyOptions
         ],
+    },
+    opacity: {
+        component: 'a-slider',
+        text: '透明度',
+        extraProps: { min: 0, max: 1, step: 0.01, reverse: true },
+        initalTransform: (v: string) => parseFloat(v),
+        afterTransform: (e: number) => e.toString()
     }
 }                
