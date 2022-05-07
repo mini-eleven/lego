@@ -16,12 +16,10 @@
             <a-button
               type="primary"
               shape="round"
-              :size="size"
             >创建设计</a-button>
             <a-button
               type="primary"
               shape="round"
-              :size="size"
             >我的作品</a-button>
             <user-profile :user="user"/>
           </div>

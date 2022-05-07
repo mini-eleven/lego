@@ -2,20 +2,18 @@
   <a-button
     type="primary"
     shape="round"
-    :size="size"
     v-if="!user.isLogin"
     @click="login"
   >登录</a-button>
   <div v-else>
-    <a-dropdown-button>
+    <a-dropdown-button class="user-profile-component">
       {{user.userName}}
       <template #overlay>
-        <a-menu>
+        <a-menu class="user-profile-dropdown">
           <a-menu-item
             key="1"
             @click="logout"
           >
-            <UserOutlined />
             登出
           </a-menu-item>
         </a-menu>
