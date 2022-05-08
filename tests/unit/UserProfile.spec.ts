@@ -33,7 +33,7 @@ const globalComponent = {
     'a-menu-item': mockComponent,
 }
 
-describe('UserProfile Component', () => {
+describe.skip('UserProfile Component', () => {
 
     beforeAll(() => {
         jest.useFakeTimers()
