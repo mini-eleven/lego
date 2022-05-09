@@ -1,6 +1,6 @@
 import store from "@/store"
 
-describe('test vuex store', () => {
+describe.skip('test vuex store', () => {
     it('should have three modules', () => {
         expect(store.state).toHaveProperty('user')
         expect(store.state).toHaveProperty('templates')
