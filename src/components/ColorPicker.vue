@@ -38,4 +38,31 @@ export default defineComponent({
 </script>
 
 <style>
+.color-picker {
+    display: flex;
+}
+
+.picked-color-list {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+    flex-wrap: wrap;
+}
+
+.picked-color-list li {
+    flex: 1;
+    width: 20%;
+    min-width: 20%;
+    max-width: 20%;
+}
+
+.color-item {
+    padding: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    margin-right: 5px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
 </style>
