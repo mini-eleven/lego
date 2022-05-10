@@ -1,6 +1,6 @@
 <template>
     <div class="file-upload">
-        <div class="upload-area" @click="triggerUpload">
+        <div class="upload-area" :class="{ 'is-dragover': drag && isDragOver }" v-on="events">
             <slot v-if="isUploading" name="loading">
                 <button disabled>正在上传</button>
             </slot>
@@ -46,11 +46,16 @@ export default defineComponent({
         },
         beforeUpload: {
             type: Function as PropType<CheckUpload>
+        },
+        drag: {
+            type: Boolean,
+            default: false
         }
     },
     setup(props) {
         const fileInput = ref<null | HTMLInputElement>(null)
         const uploadedFiles = ref<UploadFile[]>([])
+        const isDragOver = ref(false)
         const isUploading = computed(() => {
             return uploadedFiles.value.some(x => x.status == 'loading')
         })
@@ -98,9 +103,8 @@ export default defineComponent({
                 }
             })
         }
-        const handleFileChange = (e: Event) => {
-            const target = e.target as HTMLInputElement
-            const files = target.files
+
+        const uplodFiles = (files: FileList | null) => {
             if (files) {
                 const uploadedFile = files[0]
                 if (props.beforeUpload) {
@@ -123,6 +127,41 @@ export default defineComponent({
                 }
             }
         }
+
+        let events: { [key: string]: ((e: any) => void) } = {
+            'click': triggerUpload,
+        }
+        const a = events.click
+
+        const handleFileChange = (e: Event) => {
+            const target = e.target as HTMLInputElement
+            const files = target.files
+            uplodFiles(files)
+        }
+
+        const handleDrag = (e: DragEvent, over: boolean) => {
+            // 取消默认行为
+            e.preventDefault()
+            isDragOver.value = over
+        }
+
+        const handleDrop = (e: DragEvent) => {
+            e.preventDefault()
+            isDragOver.value = false
+            if (e.dataTransfer) {
+                uplodFiles(e.dataTransfer.files)
+            }
+        }
+
+        if (props.drag) {
+            events = {
+                ...events,
+                'dragover': (e: DragEvent) => { handleDrag(e, true) },
+                'dragleave': (e: DragEvent) => { handleDrag(e, false) },
+                'drop': handleDrop
+            }
+        }
+
         return {
             fileInput,
             isUploading,
@@ -130,7 +169,9 @@ export default defineComponent({
             handleFileChange,
             uploadedFiles,
             removeFile,
-            lastFileData
+            lastFileData,
+            isDragOver,
+            events
         }
     }
 })
@@ -147,5 +188,17 @@ export default defineComponent({
 
 .upload-error {
     color: red
+}
+
+.file-upload .upload-area {
+    background: #efefef;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 20px;
+    width: 360px;
+    height: 180px;
+    text-align: center;
+
 }
 </style>

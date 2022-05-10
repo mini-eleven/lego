@@ -1,5 +1,5 @@
 <template>
-    <uploader :action="'http://localhost:7001/upload'"></uploader>
+    <uploader :action="'http://localhost:7001/upload'" drag></uploader>
     <div class="homepage-container" v-if="withHeader">
         <a-layout :style="{ background: '#fff' }">
             <a-layout-header class="header">
